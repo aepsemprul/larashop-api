@@ -1,6 +1,8 @@
 <?php
 
+use App\Book;
 use Illuminate\Http\Request;
+use App\Http\Resources\Book as BookResource;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,21 +19,25 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('nama', function () {
-    return 'Namaku, Larashop API';
-});
+// Route::get('buku/{judul}', 'BookController@cetak');
+// Route::middleware('throttle:10,1')->group(function () {
+//     Route::get('buku/{judul}', 'BookController@cetak');
+// });
 
-Route::get('category/{id?}', function ($id) {
-    $categories = [
-        1 => 'Programming',
-        2 => 'Desain Grafis',
-        3 => 'Jaringan Komputer',
-    ];
-    $id = (int) $id;
-    if($id==0) return 'Silakan pilih kategori';
-        else return 'Anda memilih kategori <b>'.$categories[$id].'</b>';
-});
+// Route::middleware(['cors'])->group(function () {
+//     Route::get('buku/{judul}', 'BookController@cetak');
+// });
 
-Route::get('book/{id}', function () {
-    return 'buku angka';
-})->where('id', '[0-9]+');
+// Route::get('/book', function () {
+//     return new BookResource(Book::find(1));
+// });
+
+// Route::prefix('v1')->group(function () {
+//     Route::get('books', 'BookController@index');
+//     Route::get('book/{id}', 'BookController@view')->where('id', '[0-9]+');
+// });
+
+Route::apiResources([
+    'categories' => 'CategoryController',
+    'books' => 'BookController',
+]);
